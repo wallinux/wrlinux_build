@@ -1,0 +1,10 @@
+FROM ubuntu:17.04
+MAINTAINER Anders Wallin
+ENV TERM xterm
+
+RUN dpkg --add-architecture i386
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive; apt-get -y upgrade
+RUN DEBIAN_FRONTEND=noninteractive; apt-get install -y apt-utils sudo tzdata cpio
+ADD Dockerfiles/host_package_install.sh /tmp/
+RUN /tmp/host_package_install.sh --yes --install
