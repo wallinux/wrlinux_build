@@ -1,5 +1,5 @@
 
-LINUX_TAG	?= 17.04
+#LINUX_TAG	?= 17.04
 AW_LOOP		?= 3
 
 docker.prepare.$(USER)::
@@ -11,7 +11,7 @@ aw.test: configure
 
 
 aw.test.all:
-#	$(MAKE) aw.test
+	$(MAKE) aw.test
 	$(MAKE) docker.make.aw.test
 
 aw.test.loop:
@@ -21,8 +21,9 @@ aw.test.loop:
 
 aw.prepare:
 	$(call run-docker-exec, root, , sh -c "apt install -y bsdmainutils time" )
-	$(call run-docker-exec, $(USER), , ls -al ~/ )
-	$(call run-docker-exec, $(USER), , sh -c "echo PS1=\'\\\u:\\\W\\\$$ \' >> $$HOME/.bashrc" )
+	$(call run-docker-exec, $(USER), , sh -c 'echo $$HOME' )
+	$(call run-docker-exec, $(USER), , sh -c 'ls -al $$HOME' )
+	$(call run-docker-exec, $(USER), , sh -c 'echo PS1=\"\\\u:\\\H\\\$$ \" >> $$HOME/.bashrc' )
 
 PKG=linux-windriver-4.1-r0
 aw.testresult:

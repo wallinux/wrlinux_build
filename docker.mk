@@ -29,7 +29,7 @@ docker.build: $(WRLINUX_DOCKERFILE)
 docker.prepare:
 	$(DOCKER) start $(WRLINUX_CONTAINER)
 	$(eval host_timezone=$(shell cat /etc/timezone))
-	$(call run-docker-exec, root, , useradd --shell /bin/bash -m -d $(HOME) -u $(shell id -u) $(USER) -g users || true )
+	$(call run-docker-exec, root, , useradd --shell /bin/bash -m -u $(shell id -u) $(USER) -g users || true )
 	$(call run-docker-exec, root, , sh -c "echo $(host_timezone) > /etc/timezone" )
 	$(call run-docker-exec, root, , ln -sfn /usr/share/zoneinfo/$(host_timezone) /etc/localtime )
 	$(call run-docker-exec, root, , dpkg-reconfigure -f noninteractive tzdata )
