@@ -6,9 +6,13 @@ docker.prepare.$(USER)::
 	$(MAKE) aw.prepare	
 
 aw.test: configure
-	$(MAKE) -s -C $(BUILDDIR) bbc BBCMD="bitbake -c cleanall virtual/kernel"
+	$(MAKE) -s kernel.clean
 	$(Q)time make -s -C $(BUILDDIR) bbc BBCMD="bitbake virtual/kernel"
 
+aw.test2: configure
+	$(MAKE) -s kernel.clean
+	$(MAKE) -s -C $(BUILDDIR) bbc BBCMD="bitbake -c packagedata virtual/kernel"
+	$(Q)time make -s -C $(BUILDDIR) bbc BBCMD="bitbake -v -D -P -c package_qa virtual/kernel"
 
 aw.test.all:
 	$(MAKE) aw.test

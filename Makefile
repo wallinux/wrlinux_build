@@ -86,6 +86,9 @@ fs: configure
 kernel: configure
 	$(MAKE) -C $(BUILDDIR) virtual/kernel
 
+kernel.clean: configure
+	$(MAKE) -s -C $(BUILDDIR) bbc BBCMD="bitbake -c cleanall virtual/kernel"
+
 sdk: configure
 	$(MAKE) -C $(BUILDDIR) export-sdk
 
