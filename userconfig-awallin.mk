@@ -12,7 +12,7 @@ aw.test: configure
 aw.test2: configure
 	$(MAKE) -s kernel.clean
 	$(MAKE) -s -C $(BUILDDIR) bbc BBCMD="bitbake -c packagedata virtual/kernel"
-	$(Q)time make -s -C $(BUILDDIR) bbc BBCMD="bitbake -v -D -P -c package_qa virtual/kernel"
+	$(Q)time make -s -C $(BUILDDIR) bbc BBCMD="bitbake -v -P -c package_qa virtual/kernel | ts -s "%.S" | tee do_package_qa.log"
 
 aw.test.all:
 	$(MAKE) aw.test
@@ -24,7 +24,7 @@ aw.test.loop:
 	done
 
 aw.prepare:
-	$(call run-docker-exec, root, , sh -c "apt install -y bsdmainutils time" )
+	$(call run-docker-exec, root, , sh -c "apt install -y bsdmainutils time moreutils" )
 	$(call run-docker-exec, $(USER), , sh -c 'echo $$HOME' )
 	$(call run-docker-exec, $(USER), , sh -c 'ls -al $$HOME' )
 	$(call run-docker-exec, $(USER), , sh -c 'echo PS1=\"\\\u:\\\H\\\$$ \" >> $$HOME/.bashrc' )
